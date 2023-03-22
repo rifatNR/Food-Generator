@@ -1,5 +1,6 @@
+import { BaseContext } from "@/context/BaseContext";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const MagicCircle = () => {
 
@@ -14,6 +15,8 @@ const MagicCircle = () => {
         setTimeout(() => setStartAnimation3(true), 1400);
         setTimeout(() => setStartAnimation4(true), 1700);
     }, [])
+
+    const ctx = useContext(BaseContext)
     
     
     return (
@@ -64,21 +67,43 @@ const MagicCircle = () => {
                 </div>
             </div>
 
-            <button className={`
-                    absolute bottom-[-30px] left-[50%] transform-center
-                    bg-[#D14D4D] text-white
-                    ${startAnimation4 ? "w-[250px]" : "w-[0px]"}
-                    ${startAnimation4 ? "hover:scale-105" : ""}
-                    ${startAnimation4 ? "active:scale-100" : ""}
-                    py-4 rounded-2xl
-                    whitespace-nowrap
-                    text-lg text-center
-                    transition-all ease-out duration-500
-                `}>
-                <span>
-                    {startAnimation4 ? "Try Now" : ""}
-                </span>
-            </button>
+            {ctx?.app_state == "DEFAULT" && (
+                <button
+                    onClick={() => ctx?.setAppState("TAKE_INGREDIENTS")}
+                    className={`
+                        absolute bottom-[-30px] left-[50%] transform-center
+                        bg-[#D14D4D] text-white
+                        ${startAnimation4 ? "w-[250px]" : "w-[0px]"}
+                        ${startAnimation4 ? "hover:scale-105" : ""}
+                        ${startAnimation4 ? "active:scale-100" : ""}
+                        py-4 rounded-2xl
+                        whitespace-nowrap
+                        text-lg text-center
+                        transition-all ease-out duration-500
+                    `}>
+                    <span>
+                        {startAnimation4 ? "Try Now" : ""}
+                    </span>
+                </button>
+            )}
+
+            {ctx?.app_state == "TAKE_INGREDIENTS" && (
+                <button
+                    onClick={() => ctx?.generateRecepie()}
+                    className={`
+                        absolute bottom-[-30px] left-[50%] transform-center
+                        bg-[#D14D4D] text-white
+                        w-[250px] hover:scale-105 active:scale-100
+                        py-4 rounded-2xl
+                        whitespace-nowrap
+                        text-lg text-center
+                        transition-all ease-out duration-500
+                    `}>
+                    <span>
+                        Generate
+                    </span>
+                </button>
+            )}
 
         </div>
     );
