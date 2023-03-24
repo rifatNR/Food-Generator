@@ -1,9 +1,21 @@
 import Image from "next/image";
 
-const RecepieCart = () => {
+interface PropType {
+    isShow: boolean;
+}
+
+const RecepieCard = ({isShow} : PropType) => {
     return (
         <button className="relative h-[90px] w-[250px]">
-             <div className="absolute -right-2 top-0 h-full w-full bg-[#D14D4D] rounded-l-3xl grid grid-cols-12 gap-2 items-center px-5">
+             <div className={`
+                    absolute top-0
+                    ${isShow ? '-right-2' : '-right-[300px]'}
+                    transition-all ease-out delay-500
+                    h-full w-full rounded-l-3xl
+                    bg-[#D14D4D]
+                    grid grid-cols-12 gap-2 items-center px-5
+                `}
+             >
                 <div className="static col-span-4 h-[55px] w-[55px] aspect-square overflow-hidden bg-gray-300 rounded-full border-2 border-white">
                     <Image
                         className="!static"
@@ -21,4 +33,4 @@ const RecepieCart = () => {
     );
 }
  
-export default RecepieCart;
+export default RecepieCard;

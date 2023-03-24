@@ -1,6 +1,8 @@
 import { BaseContext } from "@/context/BaseContext";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
+
 
 const MagicCircle = () => {
 
@@ -69,7 +71,7 @@ const MagicCircle = () => {
 
             {ctx?.app_state == "DEFAULT" && (
                 <button
-                    onClick={() => ctx?.setAppState("TAKE_INGREDIENTS")}
+                    onClick={() => ctx?.changeAppState("TAKE_INGREDIENTS")}
                     className={`
                         absolute bottom-[-30px] left-[50%] transform-center
                         bg-[#D14D4D] text-white
@@ -104,6 +106,34 @@ const MagicCircle = () => {
                     </span>
                 </button>
             )}
+
+
+            <div className={`
+                    flex items-center justify-center space-x-3
+                    absolute bottom-[-60px] left-[50%] transform-center
+                `}>  
+                <div 
+                    onClick={() => ctx?.NEXT()}
+                    className={`
+                        cursor-pointer flex items-center justify-center space-x-1
+                        text-gray-400
+                    `}
+                >
+                    <HiOutlineChevronLeft/>
+                    <span className="text-sm">PREV</span>
+                </div>
+                <div className="w-[200px] h-0.5 bg-black rounded-full"/>
+                <div 
+                    onClick={() => ctx?.PREV()}
+                    className={`
+                        cursor-pointer flex items-center justify-center space-x-1
+                        text-black
+                    `}
+                >
+                    <span className="text-sm">NEXT</span>
+                    <HiOutlineChevronRight/>
+                </div>
+            </div>
 
         </div>
     );

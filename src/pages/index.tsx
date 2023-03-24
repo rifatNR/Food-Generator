@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import MagicCircle from '@/components/MagicCircle'
-import RecepieCartContainer from '@/components/RecepieCartContainer'
+import RecepieCardContainer from '@/components/RecepieCardContainer'
 import { useContext } from 'react'
 import { MyContext } from '@/context/ExampleContext'
 import Input from '@/components/Input'
@@ -59,7 +59,7 @@ export default function Home() {
                 <MagicCircle/>
             </div>
 
-            <RecepieCartContainer/>
+            <RecepieCardContainer/>
 
         
         </div>
