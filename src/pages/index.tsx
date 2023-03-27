@@ -8,6 +8,7 @@ import { useContext } from 'react'
 import { MyContext } from '@/context/ExampleContext'
 import Input from '@/components/Input'
 import { BaseContext } from '@/context/BaseContext'
+import RecepieDetails from '@/components/RecepieDetails'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,9 +28,11 @@ export default function Home() {
                     <span className='bg-[#D14D4D] text-white px-4 rounded-full pb-1'>Generator</span>
                 </div>
 
-                <div className='text-4xl font-Serif-pro font-semibold mt-[100px] leading-[3rem]'>
-                    Recepie Insights <br /> For Your Fridge
-                </div>
+                {ctx?.app_state != "SHOWING_DETAILS" && (
+                    <div className='text-4xl font-Serif-pro font-semibold mt-[100px] leading-[3rem]'>
+                        Recepie Insights <br /> For Your Fridge
+                    </div>
+                )}
 
                 {ctx?.app_state == "TAKE_INGREDIENTS" && (
                     <div className='w-[350px] pt-5'>
@@ -43,6 +46,10 @@ export default function Home() {
                             Add More
                         </button>
                     </div>
+                )}
+
+                {ctx?.app_state == "SHOWING_DETAILS" && (
+                    <RecepieDetails/>
                 )}
 
                 {ctx?.app_state == "DEFAULT" && (

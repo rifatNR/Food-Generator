@@ -1,6 +1,6 @@
 import { BaseContext } from "@/context/BaseContext";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 interface PropType {
     isShow: boolean;
@@ -9,12 +9,34 @@ interface PropType {
 
 const RecepieCard = ({isShow, index} : PropType) => {
 
+    const [show, setShow] = useState(false)
+    const [image, setImage] = useState("https://spoonacular.com/recipeImages/666225-312x231.jpg")
+    const [title, setTitle] = useState("---")
+    
     const ctx = useContext(BaseContext)
 
-    if(!ctx?.result != null) {
-        // if(!ctx?.result[index]) return
-        console.log("RecepieCard_" + index, ctx?.result && ctx?.result[index])
-    }
+    // if(!ctx?.recepie_card_data) return <></>
+    // if(!ctx?.recepie_card_data[index-1]) return <></>
+
+    // console.log(ctx?.recepie_card_data[index-1])
+
+    useEffect(() => {
+        if(ctx?.recepie_card_data) {
+            if(ctx?.recepie_card_data[index-1]) {
+                setImage(ctx?.recepie_card_data[index-1].image ?? "https://spoonacular.com/recipeImages/666225-312x231.jpg")
+                setTitle(ctx?.recepie_card_data[index-1].title ?? "---")
+            } else {
+                setShow(false)
+            }
+        } else {
+            setShow(false)
+        }
+    }, [ctx?.recepie_card_data])
+
+    useEffect(() => {
+        setShow(isShow)
+    }, [isShow])
+    
     
     return (
         <button onClick={() => ctx?.setSelectedCardIndex(index)} className="relative h-[90px] w-[250px]">
@@ -38,13 +60,13 @@ const RecepieCard = ({isShow, index} : PropType) => {
                     <Image
                         className="!static"
                         fill
-                        src="https://spoonacular.com/recipeImages/782619-556x370.png"
+                        src={image ?? "https://spoonacular.com/recipeImages/666225-312x231.jpg"}
                         alt="Food"
                         style={{objectFit:"cover"}}
                     />
                 </div>
-                <div className="col-span-8 font-semibold text-left">
-                    AKSJHKAJL
+                <div className="col-span-8 font-semibold text-left truncate">
+                    {title}
                 </div>
             </div>
         </button>

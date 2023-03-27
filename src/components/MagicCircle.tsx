@@ -5,6 +5,18 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 
 
 const MagicCircle = () => {
+    const ctx = useContext(BaseContext)
+    
+    const [image, setImage] = useState("https://spoonacular.com/recipeImages/666225-312x231.jpg")
+
+    useEffect(() => {
+        if(ctx?.recepie_details) {
+            setImage(ctx?.recepie_details.image ?? "https://spoonacular.com/recipeImages/666225-312x231.jpg")
+        } else {
+            setImage("https://spoonacular.com/recipeImages/666225-312x231.jpg")
+        }
+    }, [ctx?.recepie_details])
+    
 
     const [startAnimation1, setStartAnimation1] = useState(false)
     const [startAnimation2, setStartAnimation2] = useState(false)
@@ -18,24 +30,25 @@ const MagicCircle = () => {
         setTimeout(() => setStartAnimation4(true), 1700);
     }, [])
 
-    const ctx = useContext(BaseContext)
     
     
     return (
         <div className="relative rounded-full aspect-square bg-gray-400 mx-10 mt-10">
-            {/* <Image
-                // width={500}
-                // height={500}
-                className="rounded-full"
-                fill
-                src="https://spoonacular.com/recipeImages/782619-556x370.png"
-                alt="Food"
-                style={{objectFit:"cover"}}
-            /> */}
-
-            <div className="a-center">
-                <div className="custom-loader"></div>
-            </div>
+            {ctx?.loading ? (
+                <div className="a-center">
+                    <div className="custom-loader"></div>
+                </div>
+            ) : (
+                <Image
+                    // width={500}
+                    // height={500}
+                    className="rounded-full"
+                    fill
+                    src={image}
+                    alt="Food"
+                    style={{objectFit:"cover"}}
+                />
+            )}
 
 
             <div className={`a-center ${startAnimation1 ? "rotate-[225deg]" : "rotate-0"} transition-all ease-out duration-500`}>
@@ -112,16 +125,35 @@ const MagicCircle = () => {
                 </button>
             )}
 
+            {ctx?.app_state == "SHOWING_DETAILS" && (
+                <button
+                    onClick={() => ctx?.clearAll()}
+                    className={`
+                        absolute bottom-[-30px] left-[50%] transform-center
+                        bg-[#934dd1] text-white
+                        w-[250px] hover:scale-105 active:scale-100
+                        py-4 rounded-2xl
+                        whitespace-nowrap
+                        text-lg text-center
+                        transition-all ease-out duration-500
+                    `}>
+                    <span>
+                        Clear
+                    </span>
+                </button>
+            )}
 
-            <div className={`
+
+            {ctx?.recepie_card_data && ctx?.recepie_card_data?.length > 0 && (
+                <div className={`
                     flex items-center justify-center space-x-3
                     absolute bottom-[-60px] left-[50%] transform-center
                 `}>  
                 <div 
-                    onClick={() => ctx?.NEXT()}
+                    onClick={() => ctx?.PREV()}
                     className={`
                         cursor-pointer flex items-center justify-center space-x-1
-                        text-gray-400
+                        ${ctx?.page > 0 ? 'text-black' : 'text-gray-400'}
                     `}
                 >
                     <HiOutlineChevronLeft/>
@@ -129,7 +161,7 @@ const MagicCircle = () => {
                 </div>
                 <div className="w-[200px] h-0.5 bg-black rounded-full"/>
                 <div 
-                    onClick={() => ctx?.PREV()}
+                    onClick={() => ctx?.NEXT()}
                     className={`
                         cursor-pointer flex items-center justify-center space-x-1
                         text-black
@@ -139,6 +171,7 @@ const MagicCircle = () => {
                     <HiOutlineChevronRight/>
                 </div>
             </div>
+            )}
 
         </div>
     );
