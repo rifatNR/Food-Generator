@@ -1,18 +1,36 @@
+import { BaseContext } from "@/context/BaseContext";
 import Image from "next/image";
+import { useContext } from "react";
 
 interface PropType {
     isShow: boolean;
+    index: number;
 }
 
-const RecepieCard = ({isShow} : PropType) => {
+const RecepieCard = ({isShow, index} : PropType) => {
+
+    const ctx = useContext(BaseContext)
+
+    if(!ctx?.result != null) {
+        // if(!ctx?.result[index]) return
+        console.log("RecepieCard_" + index, ctx?.result && ctx?.result[index])
+    }
+    
     return (
-        <button className="relative h-[90px] w-[250px]">
+        <button onClick={() => ctx?.setSelectedCardIndex(index)} className="relative h-[90px] w-[250px]">
              <div className={`
                     absolute top-0
-                    ${isShow ? '-right-2' : '-right-[300px]'}
+                    ${isShow ?
+                        `${ctx?.selected_card_index == index ? '-right-2' : '-right-6'}` 
+                        : '-right-[300px]'
+                    }
                     transition-all ease-out delay-500
                     h-full w-full rounded-l-3xl
-                    bg-[#D14D4D]
+                    ${ctx?.selected_card_index == index ? 
+                        'bg-[#D14D4D] text-white'
+                        : 'bg-white text-black'
+                    }
+                    shadow
                     grid grid-cols-12 gap-2 items-center px-5
                 `}
              >
@@ -25,7 +43,7 @@ const RecepieCard = ({isShow} : PropType) => {
                         style={{objectFit:"cover"}}
                     />
                 </div>
-                <div className="col-span-8 text-white font-semibold text-left">
+                <div className="col-span-8 font-semibold text-left">
                     AKSJHKAJL
                 </div>
             </div>

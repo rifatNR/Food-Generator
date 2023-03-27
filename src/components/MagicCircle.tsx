@@ -23,7 +23,7 @@ const MagicCircle = () => {
     
     return (
         <div className="relative rounded-full aspect-square bg-gray-400 mx-10 mt-10">
-            <Image
+            {/* <Image
                 // width={500}
                 // height={500}
                 className="rounded-full"
@@ -31,7 +31,12 @@ const MagicCircle = () => {
                 src="https://spoonacular.com/recipeImages/782619-556x370.png"
                 alt="Food"
                 style={{objectFit:"cover"}}
-            />
+            /> */}
+
+            <div className="a-center">
+                <div className="custom-loader"></div>
+            </div>
+
 
             <div className={`a-center ${startAnimation1 ? "rotate-[225deg]" : "rotate-0"} transition-all ease-out duration-500`}>
                 <div className={`

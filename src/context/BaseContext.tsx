@@ -5,8 +5,8 @@ type AppStateType = "INTRO" |
                     "DEFAULT" |
                     "TAKE_INGREDIENTS" |
                     "SEARCHING" |
-                    "SHOW_RESULTS" |
-                    "SHOW_DETAILS" ;
+                    "SHOWING_RESULTS" |
+                    "SHOWING_DETAILS" ;
 interface BaseContextType {
     app_state: AppStateType;
     setAppState: Dispatch<SetStateAction<AppStateType>>;
@@ -18,10 +18,14 @@ interface BaseContextType {
     changeIngredient: (index: number, ingredient: string) => void;
     card_anim_index: number;
     setCardAnimIndex: Dispatch<SetStateAction<number>>;
+    selected_card_index: number;
+    setSelectedCardIndex: Dispatch<SetStateAction<number>>;
     cardIntro: () => void;
     cardOutro: () => void;
     NEXT: () => void;
     PREV: () => void;
+    result: Response[] | null,
+    setResult: Dispatch<SetStateAction<null>>;
 }
 
 
@@ -34,9 +38,21 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     
     const [app_state, setAppState] = useState<AppStateType>("DEFAULT");
   
-    const [ingredients, setIngredients] = useState<string[]>([]);
+    const [ingredients, setIngredients] = useState<string[]>(["onion", "bread", "butter"]);
 
     const [card_anim_index, setCardAnimIndex] = useState(0)
+
+    const [selected_card_index, setSelectedCardIndex] = useState(1)
+
+    const [result, setResult] = useState(null)
+
+    const [page, setPage] = useState(1)
+
+
+    useEffect(() => {
+        console.log("result", result)
+    }, [result])
+    
 
 
     const cardIntro = () => {
@@ -78,11 +94,18 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     }
 
     const generateRecepie = () => {
-        fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&includeIngredients=bread,cheez,eggs`)
+        if(ingredients.length <= 2) {
+            // TODO: SHOW ERROR
+            return
+        }
+        
+        fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&includeIngredients=${ingredients.toString()}&number=${3}&offset=${3*(page-1)}`)
             .then(response => response.json())
-            .then(data => console.log(data))
+            .then(data => {
+                setResult(data.results)
+                console.log("data", data)
+            })
             .catch(error => console.error(error));
-      
     }
 
 
@@ -112,10 +135,14 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
             changeIngredient,
             card_anim_index,
             setCardAnimIndex,
+            selected_card_index,
+            setSelectedCardIndex,
             cardIntro,
             cardOutro,
             NEXT,
             PREV,
+            result,
+            setResult,
         }}>
         {children}
       </BaseContext.Provider>
@@ -123,3 +150,9 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
 };
 
 export default BaseProvider
+
+
+
+
+// https://api.spoonacular.com/recipes/complexSearch?apiKey=b8f8c3cf183c42238dae5543e1caadbe&includeIngredients=bread,cheez,eggs
+// https://api.spoonacular.com/recipes/782619/information?apiKey=b8f8c3cf183c42238dae5543e1caadbe
