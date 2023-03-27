@@ -34,6 +34,7 @@ const MagicCircle = () => {
     
     return (
         <div className="relative rounded-full aspect-square bg-gray-400 mx-10 mt-10">
+            
             {ctx?.loading ? (
                 <div className="a-center">
                     <div className="custom-loader"></div>

@@ -23,6 +23,18 @@ export default function Home() {
             </Head>
 
             <div className=''>
+
+                <div
+                    className={`
+                        flex items-center justify-center space-x-3
+                        absolute left-[50%] transform-center
+                        ${ctx?.error != null ? 'top-[50px]' : 'top-[-50px]'}
+                        transition-all ease-out
+                    `}
+                >
+                    <div className="font-semibold text-lg text-red-500">{ctx?.error}</div>
+                </div>
+                
                 <div className='space-x-5'>
                     <span className='font-semibold'>Food</span>
                     <span className='bg-[#D14D4D] text-white px-4 rounded-full pb-1'>Generator</span>

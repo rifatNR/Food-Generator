@@ -20,10 +20,9 @@ const RecepieDetails = () => {
             </div>
             <div className='text-4xl font-Serif-pro font-semibold mt-[20px] mb-3 leading-[3rem]'>Ingredients</div>
             <div className="bg-white shadow rounded-l-xl h-[200px] w-[450px] px-8 py-3 overflow-y-scroll">
-                {/* <p dangerouslySetInnerHTML={{ __html: ctx?.recepie_details?.instructions }}></p> */}
                 <ol className="list-disc">
                     {ctx?.recepie_details?.extendedIngredients?.map((item: any) => (
-                        <li>
+                        <li key={item.id}>
                             <span className="capitalize">{item.name}</span> - {item.amount} {item.unit}
                         </li>
                     ))}

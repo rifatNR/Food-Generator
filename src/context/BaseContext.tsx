@@ -44,6 +44,8 @@ interface BaseContextType {
     page: number;
     setPage: Dispatch<SetStateAction<number>>;
     clearAll: () => void;
+    error: string | null;
+    setError: Dispatch<SetStateAction<string | null>>;
 }
 
 
@@ -71,6 +73,8 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const [recepie_details, setRecepieDetails] = useState<any>(null)
 
     const [page, setPage] = useState(1)
+
+    const [error, setError] = useState<string | null>(null)
 
 
     const [loading, setLoading] = useState(false)
@@ -145,6 +149,7 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const generateRecepie = () => {
         if(ingredients.length <= 2) {
             // TODO: SHOW ERROR
+            setError("Enter atleast 3 ingredients!")
             return
         }
         setLoading(true)
@@ -154,12 +159,19 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
         fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&includeIngredients=${ingredients.toString()}&number=${3}&offset=${3*(page-1)}`)
             .then(response => response.json())
             .then(data => {
+                if(data.code == 402) {
+                    setError("API EXPIRED!")
+                    return
+                }
                 setResult(data.results)
                 console.log("data", data)
                 setTimeout(() => cardIntroWeird(), 1000);
                 setLoading(false)
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(error)
+                setError(error.message)
+            });
     }
 
     const getRecepieDetails = (id = 0) => {
@@ -168,12 +180,19 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
         fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`)
             .then(response => response.json())
             .then(data => {
+                if(data.code == 402) {
+                    setError("API EXPIRED!")
+                    return
+                }
                 setRecepieDetails(data)
                 console.log("Recepie Details", data)
                 setLoading(false)
                 setAppState("SHOWING_DETAILS")
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error(error)
+                setError(error.message)
+            });
     }
 
     const clearAll = () => {
@@ -214,6 +233,17 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
             getRecepieDetails(recepie_card_data[selected_card_index-1]?.id)
         }
     }, [selected_card_index])
+
+
+    useEffect(() => {
+        console.log(error);
+
+        const delayDebounceFn = setTimeout(() => {
+            setError(null)
+        }, 3000);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [error]);
     
 
     return (
@@ -246,6 +276,8 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
             page,
             setPage,
             clearAll,
+            error,
+            setError,
         }}>
         {children}
       </BaseContext.Provider>
