@@ -52,7 +52,7 @@ const MagicCircle = () => {
             )}
 
 
-            <div className={`a-center ${startAnimation1 ? "rotate-[225deg]" : "rotate-0"} transition-all ease-out duration-500`}>
+            {/* <div className={`a-center ${startAnimation1 ? "rotate-[225deg]" : "rotate-0"} transition-all ease-out duration-500`}>
                 <div className={`
                         absolute top-[156px] transform-center transition-all ease-out duration-500
                         rotate-[-225deg]
@@ -62,9 +62,9 @@ const MagicCircle = () => {
                     `}>
                     <span>Halal</span>
                 </div>
-            </div>
+            </div> */}
 
-            <div className={`a-center ${startAnimation2 ? "rotate-[180deg]" : "rotate-0"} transition-all ease-out duration-500`}>
+            {/* <div className={`a-center ${startAnimation2 ? "rotate-[180deg]" : "rotate-0"} transition-all ease-out duration-500`}>
                 <div className={`
                         absolute top-[156px] transform-center transition-all ease-out duration-500
                         rotate-[180deg]
@@ -74,9 +74,9 @@ const MagicCircle = () => {
                     `}>
                     <span>Vegan</span>
                 </div>
-            </div>
+            </div> */}
 
-            <div className={`a-center ${startAnimation3 ? "rotate-[135deg]" : "rotate-0"} transition-all ease-out duration-500`}>
+            {/* <div className={`a-center ${startAnimation3 ? "rotate-[135deg]" : "rotate-0"} transition-all ease-out duration-500`}>
                 <div className={`
                         absolute top-[156px] transform-center transition-all ease-out duration-500
                         rotate-[225deg]
@@ -86,7 +86,7 @@ const MagicCircle = () => {
                     `}>
                     <span>Supper</span>
                 </div>
-            </div>
+            </div> */}
 
             {ctx?.app_state == "DEFAULT" && (
                 <button

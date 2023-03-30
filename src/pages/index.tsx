@@ -42,7 +42,7 @@ export default function Home() {
 
                 {ctx?.app_state != "SHOWING_DETAILS" && (
                     <div className='text-4xl font-Serif-pro font-semibold mt-[100px] leading-[3rem]'>
-                        Recepie Insights <br /> For Your Fridge
+                        Recipe Insights <br /> For Your Fridge
                     </div>
                 )}
 
@@ -67,8 +67,8 @@ export default function Home() {
                 {ctx?.app_state == "DEFAULT" && (
                     <div className='w-[300px] mt-5 font-Serif-pro text-xl'>
                         Your one stop place
-                        to find healthy mean inspiration
-                        regardless of what you have,
+                        to find healthy meal inspiration
+                        regardless of what you have.
                         We make cooking hassle free!
                     </div>
                 )}
