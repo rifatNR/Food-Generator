@@ -31,7 +31,7 @@ const RecepieCard = ({isShow, index} : PropType) => {
         } else {
             setShow(false)
         }
-    }, [ctx?.recepie_card_data])
+    }, [ctx?.recepie_card_data, ctx?.result, ctx?.page])
 
     useEffect(() => {
         setShow(isShow)

@@ -15,7 +15,7 @@ const MagicCircle = () => {
         } else {
             setImage("https://spoonacular.com/recipeImages/666225-312x231.jpg")
         }
-    }, [ctx?.recepie_details])
+    }, [ctx?.recepie_details, ctx?.page, ctx?.selected_card_index])
     
 
     const [startAnimation1, setStartAnimation1] = useState(false)

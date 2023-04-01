@@ -54,8 +54,8 @@ export const BaseContext = createContext<BaseContextType | undefined>(undefined)
 const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
     // const API_KEY = "5409a07405b548f4942f69e706296e27"
-    // const API_KEY = "b8f8c3cf183c42238dae5543e1caadbe"
-    const API_KEY = "b9c53ab6edaa48a389be2ce6268d8ef7"
+    const API_KEY = "b8f8c3cf183c42238dae5543e1caadbe"
+    // const API_KEY = "b9c53ab6edaa48a389be2ce6268d8ef7"
     // ! I really shouldn't put it here.
     
     const [app_state, setAppState] = useState<AppStateType>("DEFAULT");
@@ -76,6 +76,8 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
 
     const [error, setError] = useState<string | null>(null)
 
+    const [hasInit, setHasInit] = useState<boolean>(false)
+
 
     const [loading, setLoading] = useState(false)
 
@@ -91,6 +93,7 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     }
 
     const cardIntroWeird = () => {
+        console.log("xxxxxx", result)
         setTimeout(() => {
             if(result) {
                 getRecepieDetails(result[0]?.id)
@@ -163,9 +166,12 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
                     setError("API EXPIRED!")
                     return
                 }
+                if(data.code == 404) {
+                    setError("No New Recipe Found!")
+                    return
+                }
                 setResult(data.results)
                 console.log("data", data)
-                setTimeout(() => cardIntroWeird(), 1000);
                 setLoading(false)
             })
             .catch(error => {
@@ -184,6 +190,10 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
                     setError("API EXPIRED!")
                     return
                 }
+                if(data.code == 404) {
+                    setError("No New Recipe Found!!")
+                    return
+                }
                 setRecepieDetails(data)
                 console.log("Recepie Details", data)
                 setLoading(false)
@@ -196,14 +206,15 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     }
 
     const clearAll = () => {
-        cardOutro()
-        setIngredients([])
-        setResult(null)
-        setRecepieCardData([])
-        setRecepieDetails(null)
-        setAppState("DEFAULT")
-        setPage(1)
-        setSelectedCardIndex(1)
+        window.location.reload();
+        // cardOutro()
+        // setIngredients([])
+        // setResult(null)
+        // setRecepieCardData([])
+        // setRecepieDetails(null)
+        // setAppState("DEFAULT")
+        // setPage(1)
+        // setSelectedCardIndex(1)
     }
 
 
@@ -221,8 +232,13 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     }, [ingredients])
 
     useEffect(() => {
-        generateRecepie()
+        if(result)
+            generateRecepie()
     }, [page])
+
+    useEffect(() => {
+        setTimeout(() => cardIntroWeird(), 1000);
+    }, [result])
 
     useEffect(() => {
         console.log("recepie_card_data", recepie_card_data)
