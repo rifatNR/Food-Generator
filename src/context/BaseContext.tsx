@@ -121,7 +121,7 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     const NEXT = () => {
         setPage(page+1);
         cardOutro()
-        setTimeout(() => cardIntro(), 1000);
+        // setTimeout(() => cardIntro(), 1000);
         setSelectedCardIndex(1)
     }
     const PREV = () => {
