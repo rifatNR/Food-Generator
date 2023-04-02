@@ -129,7 +129,7 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
             setPage(page => page-1);
         }
         cardOutro()
-        setTimeout(() => cardIntro(), 1000);
+        // setTimeout(() => cardIntro(), 1000);
     }
 
     
