@@ -169,7 +169,7 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
                 }
                 if(data.code == 404) {
                     setError("No New Recipe Found!")
-                    setResult([])
+                    setResult(null)
                     return
                 }
                 setResult(data.results)
@@ -240,7 +240,12 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
     }, [page])
 
     useEffect(() => {
-        setTimeout(() => cardIntroWeird(), 1000);
+        if(result) {
+            setTimeout(() => cardIntroWeird(), 1000);
+        } else {
+            setRecepieCardData([])
+            cardOutro()
+        }
     }, [result])
 
     useEffect(() => {
