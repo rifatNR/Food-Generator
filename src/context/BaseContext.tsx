@@ -162,17 +162,18 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
         fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&includeIngredients=${ingredients.toString()}&number=${3}&offset=${3*(page-1)}`)
             .then(response => response.json())
             .then(data => {
+                setLoading(false)
                 if(data.code == 402) {
                     setError("API EXPIRED!")
                     return
                 }
                 if(data.code == 404) {
                     setError("No New Recipe Found!")
+                    setResult([])
                     return
                 }
                 setResult(data.results)
                 console.log("data", data)
-                setLoading(false)
             })
             .catch(error => {
                 console.error(error)
@@ -186,17 +187,19 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
         fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`)
             .then(response => response.json())
             .then(data => {
+                setLoading(false)
                 if(data.code == 402) {
                     setError("API EXPIRED!")
                     return
                 }
                 if(data.code == 404) {
                     setError("No New Recipe Found!!")
+                    setRecepieDetails(null)
                     return
                 }
                 setRecepieDetails(data)
                 console.log("Recepie Details", data)
-                setLoading(false)
+
                 setAppState("SHOWING_DETAILS")
             })
             .catch(error => {
