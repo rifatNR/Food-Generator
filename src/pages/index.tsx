@@ -60,7 +60,7 @@ export default function Home() {
                     </div>
                 )}
 
-                {ctx?.app_state == "SHOWING_DETAILS" && (
+                {ctx?.app_state == "SHOWING_DETAILS" && ctx?.recepie_details && (
                     <RecepieDetails/>
                 )}
 

@@ -193,7 +193,7 @@ const BaseProvider = ({ children }: React.PropsWithChildren<{}>) => {
                     return
                 }
                 if(data.code == 404) {
-                    setError("No New Recipe Found!!")
+                    setError("Recipe Details not found!!")
                     setRecepieDetails(null)
                     return
                 }
