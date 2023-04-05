@@ -8,12 +8,15 @@ const MagicCircle = () => {
     const ctx = useContext(BaseContext)
     
     const [image, setImage] = useState("https://spoonacular.com/recipeImages/666225-312x231.jpg")
+    const [name, setName] = useState<string | null>(null)
 
     useEffect(() => {
         if(ctx?.recepie_details) {
             setImage(ctx?.recepie_details.image ?? "https://spoonacular.com/recipeImages/666225-312x231.jpg")
+            setName(ctx?.recepie_details.title)
         } else {
             setImage("https://spoonacular.com/recipeImages/666225-312x231.jpg")
+            setName(null)
         }
     }, [ctx?.recepie_details, ctx?.page, ctx?.selected_card_index])
     
@@ -34,6 +37,13 @@ const MagicCircle = () => {
     
     return (
         <div className="relative rounded-full aspect-square bg-gray-400 mx-10 mt-10">
+            
+            <div className="absolute bottom-[350px] left-[50%] -translate-x-1/2
+                            text-2xl font-semibold
+                            w-[500px] text-center
+                            ">
+                {name}
+            </div>
             
             {ctx?.loading ? (
                 <div className="a-center">
